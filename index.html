@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simpsons AI ♡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+    --pink: #e88eb5;
+    --pink-dark: #bd5c8c;
+    --pink-light: #fff0f6;
+    --lavender: #eee8ff;
+    --purple: #8774c7;
+    --ink: #59465e;
+    --muted: #987f99;
+    --white: #fffdfd;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    color: var(--ink);
+    background:
+        radial-gradient(circle at 10% 15%, #ffe0ed 0, transparent 25%),
+        radial-gradient(circle at 90% 35%, #e8e1ff 0, transparent 28%),
+        #fff8fb;
+    min-height: 100vh;
+}
+header {
+    text-align: center;
+    padding: 34px 18px 25px;
+}
+.logo {
+    display: inline-block;
+    background: white;
+    color: var(--pink-dark);
+    border: 1px solid #f8d8e6;
+    border-radius: 30px;
+    padding: 7px 17px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    box-shadow: 0 5px 20px #d78bb51a;
+}
+h1 {
+    font-size: clamp(34px, 6vw, 51px);
+    line-height: 1.1;
+    margin: 19px 0 10px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+}
+h1 span { color: var(--pink-dark); }
+.subtitle {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+}
+main {
+    max-width: 690px;
+    padding: 0 18px 35px;
+    margin: auto;
+}
+.card {
+    background: rgba(255,253,253,.96);
+    border: 1px solid #f4dce8;
+    border-radius: 27px;
+    padding: clamp(20px, 5vw, 34px);
+    box-shadow: 0 18px 55px #b76b9714;
+}
+.card-title {
+    text-align: center;
+    margin-bottom: 23px;
+}
+.card-title h2 {
+    font-size: 23px;
+    margin: 0 0 5px;
+    font-weight: 900;
+}
+.card-title p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0;
+}
+.upload {
+    display: block;
+    text-align: center;
+    border: 2px dashed #e7b5ce;
+    border-radius: 20px;
+    background: #fff7fb;
+    padding: 26px 16px;
+    cursor: pointer;
+    transition: .2s ease;
+}
+.upload:hover {
+    border-color: var(--pink);
+    background: #fff0f6;
+    transform: translateY(-2px);
+}
+.upload-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 20px;
+    display: grid;
+    place-items: center;
+    background: var(--lavender);
+    margin: 0 auto 12px;
+    font-size: 27px;
+}
+.upload strong { display: block; font-size: 16px; }
+.upload small {
+    display: block;
+    color: var(--muted);
+    margin-top: 5px;
+}
+input[type=file] {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    margin: 14px auto 0;
+    font-family: inherit;
+    font-size: 12px;
+}
+#vista {
+    display: none;
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    margin: 22px auto 0;
+    border-radius: 18px;
+    border: 3px solid white;
+    box-shadow: 0 4px 18px #59465e18;
+}
+button {
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 15px;
+    padding: 15px 18px;
+    margin-top: 19px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 900;
+    color: white;
+    background: linear-gradient(100deg, #e78cb5, #b99be9);
+    box-shadow: 0 7px 17px #d38cb536;
+    cursor: pointer;
+    transition: .2s ease;
+}
+button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px #d38cb54d;
+}
+button:disabled { opacity: .5; cursor: not-allowed; }
+#resultado {
+    display: none;
+    text-align: center;
+    margin-top: 23px;
+    padding: 23px 15px;
+    background: linear-gradient(140deg, #fff0f6, #f2edff);
+    border: 1px solid #f2d7e8;
+    border-radius: 20px;
+}
+.result-label {
+    color: var(--pink-dark);
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+#personaje {
+    font-size: clamp(23px, 5vw, 32px);
+    font-weight: 900;
+    text-transform: capitalize;
+    overflow-wrap: anywhere;
+    margin: 8px 0;
+}
+.confianza-label { color: var(--muted); font-size: 14px; }
+#confianza { color: var(--purple); font-weight: 900; }
+#mensaje {
+    text-align: center;
+    color: var(--pink-dark);
+    font-size: 14px;
+    font-weight: 700;
+}
+footer {
+    text-align: center;
+    padding: 0 15px 25px;
+    color: var(--muted);
+    font-size: 12px;
+}
+footer .heart { color: var(--pink-dark); }
+@media (max-width: 480px) {
+    header { padding-top: 25px; }
+    .card { border-radius: 22px; }
+}
+</style>
+</head>
+<body>
+<header>
+    <div class="logo">♡ DEEP LEARNING PROJECT ♡</div>
+    <h1>Simpsons <span>AI</span> ♡</h1>
+    <p class="subtitle">Un pequeño laboratorio para reconocer tus personajes favoritos</p>
+</header>
+
+<main>
+    <section class="card">
+        <div class="card-title">
+            <h2>¿Quién aparece en la foto? ✨</h2>
+            <p>Sube una imagen y deja que la inteligencia artificial lo descubra.</p>
+        </div>
+
+        <label class="upload" for="archivo">
+            <div class="upload-icon">🎀</div>
+            <strong>Elige tu imagen</strong>
+            <small>JPG, PNG o WEBP</small>
+            <input id="archivo" type="file"
+                   accept="image/png,image/jpeg,image/webp">
+        </label>
+
+        <img id="vista" alt="Vista previa de la imagen seleccionada">
+
+        <button id="analizar" disabled>♡ Identificar personaje ♡</button>
+
+        <div id="resultado" aria-live="polite">
+            <div class="result-label">✦ ¡Resultado de la predicción! ✦</div>
+            <div id="personaje"></div>
+            <div class="confianza-label">
+                Confianza del modelo: <span id="confianza"></span>
+            </div>
+        </div>
+        <p id="mensaje" role="status"></p>
+    </section>
+</main>
+
+<footer>
+    Creado con <span class="heart">♥</span> y Deep Learning · Clasificación de personajes
+</footer>
+
+<script>
+const archivo = document.getElementById("archivo");
+const vista = document.getElementById("vista");
+const boton = document.getElementById("analizar");
+const resultado = document.getElementById("resultado");
+const mensaje = document.getElementById("mensaje");
+let urlAnterior = null;
+
+archivo.addEventListener("change", () => {
+    const imagen = archivo.files[0];
+    resultado.style.display = "none";
+    mensaje.textContent = "";
+    boton.disabled = !imagen;
+
+    if (urlAnterior) URL.revokeObjectURL(urlAnterior);
+
+    if (imagen) {
+        urlAnterior = URL.createObjectURL(imagen);
+        vista.src = urlAnterior;
+        vista.style.display = "block";
+    } else {
+        vista.style.display = "none";
+    }
+});
+
+boton.addEventListener("click", async () => {
+    const imagen = archivo.files[0];
+    if (!imagen) return;
+
+    boton.disabled = true;
+    mensaje.textContent = "Procesando tu imagen... ♡";
+    resultado.style.display = "none";
+
+    try {
+        const datos = new FormData();
+        datos.append("file", imagen);
+
+        const respuesta = await fetch("/predict", {
+            method: "POST",
+            body: datos
+        });
+        const json = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(json.detail || "No se pudo analizar la imagen.");
+        }
+
+        document.getElementById("personaje").textContent =
+            json.personaje.replaceAll("_", " ");
+        document.getElementById("confianza").textContent =
+            json.confianza + "%";
+        resultado.style.display = "block";
+        mensaje.textContent = "¡Análisis completado! ♡";
+    } catch (error) {
+        mensaje.textContent = "No se pudo completar el análisis: " + error.message;
+    } finally {
+        boton.disabled = false;
+    }
+});
+</script>
+</body>
+</html>
